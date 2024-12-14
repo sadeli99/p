@@ -1,32 +1,19 @@
 // api/proxy.js
-export default async function handler(req, res) {
-  const { url } = req.query;  // Ambil parameter 'url' dari query string
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-  // Jika parameter 'url' tidak ada, kirimkan respons error
-  if (!url) {
-    return res.status(400).json({ error: 'Parameter "url" diperlukan' });
-  }
+const app = express();
 
-  try {
-    // Lakukan permintaan ke URL yang diberikan
-    const response = await fetch(url);
+// Menyusun middleware proxy
+app.use('/proxy', createProxyMiddleware({
+  target: 'https://jeniusplay.com',  // Ganti dengan URL target yang sesuai
+  changeOrigin: true,  // Menyesuaikan header origin agar sesuai dengan target
+  pathRewrite: {
+    '^/proxy': '',  // Menghapus '/proxy' dari URL yang diminta
+  },
+}));
 
-    // Jika respons berhasil, kirimkan data ke client
-    if (response.ok) {
-      const data = await response.text();  // Ambil respons dalam bentuk teks (misalnya file m3u8)
-      
-      // Set header CORS agar API dapat diakses dari domain lain
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      
-      // Kirimkan data yang diterima dari URL yang diminta ke client
-      res.status(200).send(data);
-    } else {
-      // Jika gagal mendapatkan data dari URL, kirimkan status error
-      res.status(response.status).json({ error: 'Gagal mengambil data dari URL yang diberikan' });
-    }
-  } catch (error) {
-    // Tangani kesalahan jika terjadi masalah jaringan atau lainnya
-    console.error(error);
-    res.status(500).json({ error: 'Terjadi kesalahan server' });
-  }
-}
+// Ekspor aplikasi untuk digunakan oleh Vercel
+module.exports = (req, res) => {
+  app(req, res);  // Menjalankan Express app untuk permintaan
+};
