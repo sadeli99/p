@@ -16,16 +16,11 @@
       "dest": "/api/$1.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/public/$1"
-    },
-    { 
       "handle": "filesystem"
     },
-    { 
-      "src": "/(.*)", 
-      "status": 404, 
-      "dest": "/public/404.html"
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
     }
   ],
   "headers": [
@@ -47,7 +42,7 @@
       ]
     },
     {
-      "source": "/public/(.*)", 
+      "source": "/(.*)", 
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
