@@ -1,15 +1,13 @@
-const express = require('express');
+// api/proxy.js
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-const app = express();
-
-app.use('/proxy', createProxyMiddleware({
-    target: 'https://jeniusplay.com', // Ganti dengan server sumber
+module.exports = (req, res) => {
+  const proxy = createProxyMiddleware({
+    target: 'https://jeniusplay.com', // URL server tujuan
     changeOrigin: true,
     pathRewrite: {
-        '^/proxy': '', // Menghapus '/proxy' dari URL
+      '^/api/proxy': '', // Menghapus '/api/proxy' dari URL yang diminta
     },
-}));
-
-// Ekspor aplikasi untuk digunakan oleh Vercel
-module.exports = app;
+  });
+  return proxy(req, res);
+};
