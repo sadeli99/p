@@ -693,7 +693,7 @@
         <div id="settings-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay" onclick="if(event.target === this) app.closeModal('settings-modal')">
             <div class="bg-[#181818] border border-rz_border rounded-[18px] w-full max-w-[300px] overflow-hidden shadow-2xl relative flex flex-col">
                 <div class="flex flex-col text-[15px] font-semibold">
-                    <button class="text-left px-5 py-4 hover:bg-[#262626] transition flex justify-between items-center text-white" onclick="app.closeModal('settings-modal'); setTimeout(() => app.navigate('tampilan'), 50)">Tampilan <i class="ph ph-caret-right text-rz_text_secondary"></i></button>
+                    <button class="text-left px-5 py-4 hover:bg-[#262626] transition flex justify-between items-center text-white" onclick="app.closeModal('settings-modal'); setTimeout(() => app.openAppearanceModal(), 120)">Tampilan <i class="ph ph-caret-right text-rz_text_secondary"></i></button>
                     <button class="text-left px-5 py-4 hover:bg-[#262626] transition flex justify-between items-center text-white border-b border-rz_border" onclick="app.closeModal('settings-modal'); app.openConfigModal()">Pengaturan <i class="ph ph-caret-right text-rz_text_secondary"></i></button>
                     
                     <button class="text-left px-5 py-4 hover:bg-[#262626] transition text-white" onclick="app.closeModal('settings-modal'); app.navigate('activity', 'likes')">Disukai</button>
@@ -1567,10 +1567,7 @@
                         app.markConversationRead(app.activeConversationId);
                     }
                     break;
-                case 'tampilan':
-                    app.currentHeaderHTML = '';
-                    app.renderAppearanceView();
-                    break;
+
             }
 
             if (typeof app.updateMobileChrome === 'function') app.updateMobileChrome();
