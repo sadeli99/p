@@ -685,7 +685,7 @@
         <div id="settings-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay" onclick="if(event.target === this) app.closeModal('settings-modal')">
             <div class="bg-[#181818] border border-rz_border rounded-[18px] w-full max-w-[300px] overflow-hidden shadow-2xl relative flex flex-col">
                 <div class="flex flex-col text-[15px] font-semibold">
-                    <button class="text-left px-5 py-4 hover:bg-[#262626] transition flex justify-between items-center text-white" onclick="app.closeModal('settings-modal'); app.openAppearanceModal()">Tampilan <i class="ph ph-caret-right text-rz_text_secondary"></i></button>
+                    <button class="text-left px-5 py-4 hover:bg-[#262626] transition flex justify-between items-center text-white" onclick="app.closeModal('settings-modal'); setTimeout(() => app.navigate('tampilan'), 50)">Tampilan <i class="ph ph-caret-right text-rz_text_secondary"></i></button>
                     <button class="text-left px-5 py-4 hover:bg-[#262626] transition flex justify-between items-center text-white border-b border-rz_border" onclick="app.closeModal('settings-modal'); app.openConfigModal()">Pengaturan <i class="ph ph-caret-right text-rz_text_secondary"></i></button>
                     
                     <button class="text-left px-5 py-4 hover:bg-[#262626] transition text-white" onclick="app.closeModal('settings-modal'); app.navigate('activity', 'likes')">Disukai</button>
@@ -1062,6 +1062,39 @@
             app.pushModalState('appearance-modal');
             document.getElementById('appearance-modal').classList.remove('hidden');
             app.updateThemeButtons();
+        };
+
+        app.renderAppearanceView = () => {
+            const container = document.getElementById('view-container');
+            const isDark = app.theme === 'dark';
+            container.innerHTML = `
+                <header class="sticky top-0 z-30 bg-[#000000]/80 backdrop-blur-xl border-b border-rz_border sm:hidden">
+                    <div class="h-[64px] flex items-center px-4 gap-3">
+                        <button onclick="history.back()" class="text-white hover:opacity-70 transition p-1 -ml-1"><i class="ph ph-arrow-left text-2xl"></i></button>
+                        <h1 class="font-bold text-[17px] text-white">Tampilan</h1>
+                    </div>
+                </header>
+                <div class="max-w-md mx-auto px-4 py-6 sm:pt-10">
+                    <h1 class="font-bold text-2xl text-white hidden sm:block mb-6">Tampilan</h1>
+                    <p class="text-[14px] text-rz_text_secondary mb-5">Pilih tampilan yang kamu suka.</p>
+                    <div class="flex gap-3">
+                        <button onclick="app.setTheme('dark'); app.renderAppearanceView();" id="theme-view-btn-dark"
+                            class="flex-1 flex flex-col items-center gap-2.5 p-5 rounded-2xl border-2 transition cursor-pointer ${isDark ? 'border-white' : 'border-transparent hover:border-[#333]'}">
+                            <div class="w-16 h-16 rounded-full bg-[#000000] border border-[#333] flex items-center justify-center">
+                                <i class="ph-fill ph-moon text-2xl text-white"></i>
+                            </div>
+                            <span class="text-[14px] font-semibold text-white">Gelap</span>
+                        </button>
+                        <button onclick="app.setTheme('light'); app.renderAppearanceView();" id="theme-view-btn-light"
+                            class="flex-1 flex flex-col items-center gap-2.5 p-5 rounded-2xl border-2 transition cursor-pointer ${!isDark ? 'border-blue-500' : 'border-transparent hover:border-[#333]'}">
+                            <div class="w-16 h-16 rounded-full bg-[#ffffff] border border-[#ddd] flex items-center justify-center">
+                                <i class="ph-fill ph-sun text-2xl text-[#111]"></i>
+                            </div>
+                            <span class="text-[14px] font-semibold text-white">Terang</span>
+                        </button>
+                    </div>
+                </div>
+            `;
         };
 
         // Apply saved theme on load
@@ -1525,6 +1558,10 @@
                         app.loadConversationMessages(app.activeConversationId);
                         app.markConversationRead(app.activeConversationId);
                     }
+                    break;
+                case 'tampilan':
+                    app.currentHeaderHTML = '';
+                    app.renderAppearanceView();
                     break;
             }
 
