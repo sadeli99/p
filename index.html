@@ -79,6 +79,61 @@
     /* Hide scrollbar on horizontal scroll cards but keep functionality */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ===================== LIGHT MODE OVERRIDES =====================
+       The dashboard is built dark-first with zinc-* utility classes.
+       These rules remap those classes when html has the .light class,
+       so the entire surface (sidebar, topbar, cards, tables, inputs,
+       modals, badges, hovers) renders with proper contrast in light mode
+       without having to add .theme-aware to every element.
+       Blue brand buttons (bg-brand-*, bg-blue-*) are intentionally kept. */
+    html.light { color-scheme: light; }
+    html.light body { background-color: #fafafa; color: #18181b; }
+
+    /* Surface backgrounds */
+    html.light .bg-zinc-950 { background-color: #fafafa !important; }
+    html.light .bg-zinc-900,
+    html.light .bg-zinc-900\/60,
+    html.light .bg-zinc-900\/40 { background-color: #ffffff !important; }
+    html.light .bg-zinc-800,
+    html.light .bg-zinc-800\/60 { background-color: #f4f4f5 !important; }
+    html.light .bg-black { background-color: #ffffff !important; }
+    html.light .bg-zinc-950\/85 { background-color: rgba(255,255,255,0.88) !important; }
+
+    /* Borders */
+    html.light .border-zinc-800 { border-color: #e4e4e7 !important; }
+    html.light .border-zinc-700 { border-color: #d4d4d8 !important; }
+    html.light .border-zinc-500 { border-color: #a1a1aa !important; }
+
+    /* Text */
+    html.light .text-zinc-100 { color: #18181b !important; }
+    html.light .text-zinc-200 { color: #27272a !important; }
+    html.light .text-zinc-300 { color: #3f3f46 !important; }
+    html.light .text-zinc-400 { color: #52525b !important; }
+    html.light .text-zinc-500 { color: #71717a !important; }
+
+    /* Hover variants */
+    html.light .hover\:bg-zinc-900:hover { background-color: #f4f4f5 !important; }
+    html.light .hover\:bg-zinc-800:hover { background-color: #e4e4e7 !important; }
+
+    /* Placeholder color for input fields */
+    html.light input::placeholder,
+    html.light textarea::placeholder { color: #a1a1aa !important; opacity: 1; }
+
+    /* Inputs / selects */
+    html.light input,
+    html.light select,
+    html.light textarea { color: #18181b; background-color: #ffffff; }
+
+    /* Focus ring tone */
+    html.light .focus\:ring-brand-500\/30:focus { --tw-ring-color: rgba(37,99,235,0.25) !important; }
+
+    /* Tables: subtle row hover and divider */
+    html.light .divide-zinc-800 > :not([hidden]) ~ :not([hidden]) {
+      border-color: #e4e4e7 !important;
+    }
+
+    /* Skeleton already handled above */
   </style>
 </head>
 <body class="bg-zinc-950 text-zinc-100 antialiased min-h-screen">
@@ -133,7 +188,7 @@
     <!-- Sidebar -->
     <aside id="sidebar"
            class="fixed lg:static inset-y-0 left-0 z-40 w-64 transform -translate-x-full lg:translate-x-0 transition-transform duration-200
-                  bg-zinc-950 lg:bg-zinc-950 border-r border-zinc-800 flex flex-col">
+                  bg-zinc-950 border-r border-zinc-800 flex flex-col">
       <div class="h-16 flex items-center justify-between px-5 border-b border-zinc-800">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-brand-600 flex items-center justify-center">
